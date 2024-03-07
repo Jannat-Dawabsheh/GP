@@ -32,6 +32,11 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  void login(VoidCallback loginFunc) {
+    if (_formKey.currentState!.validate()) {
+       loginFunc();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +121,14 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: const BorderSide(color:AppColors.primary, width: 2.0),
                           ),
+                          errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: AppColors.red),
+                          borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:const BorderSide(color: AppColors.red),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -128,6 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                         textInputAction: TextInputAction.done,
                         onEditingComplete: () {
                           _passwordFocusNode.unfocus();
+                          login(() { });
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -167,6 +181,14 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: const BorderSide(color:AppColors.primary, width: 2.0),
                           ),
+                          errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: AppColors.red),
+                          borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:const BorderSide(color: AppColors.red),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -194,6 +216,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 50,
                         child: ElevatedButton(
                                 onPressed: (){
+                                  login(() { });
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primary,

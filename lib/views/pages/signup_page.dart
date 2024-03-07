@@ -37,6 +37,12 @@ class _SignupPageState extends State<SignupPage> {
     super.dispose();
   }
 
+  void signup(VoidCallback signupFunc) {
+    if (_formKey.currentState!.validate()) {
+       signupFunc();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
      return Scaffold(
@@ -115,6 +121,14 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: const BorderSide(color:AppColors.primary, width: 2.0),
                           ),
+                          errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: AppColors.red),
+                          borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:const BorderSide(color: AppColors.red),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
                   ),
                   const SizedBox(height: 20.0),
@@ -151,6 +165,14 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: const BorderSide(color:AppColors.primary, width: 2.0),
                           ),
+                          errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: AppColors.red),
+                          borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:const BorderSide(color: AppColors.red),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
                   ),
                   const SizedBox(height: 20.0),
@@ -161,6 +183,7 @@ class _SignupPageState extends State<SignupPage> {
                         textInputAction: TextInputAction.done,
                         onEditingComplete: () {
                           _passwordFocusNode.unfocus();
+                          signup(() { });
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -199,6 +222,14 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: const BorderSide(color:AppColors.primary, width: 2.0),
                           ),
+                          errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: AppColors.red),
+                          borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:const BorderSide(color: AppColors.red),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                     ),
                   ),
                     const SizedBox(height: 20.0),
@@ -207,7 +238,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 50.0,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Add functionality for the button here
+                        signup(() { });
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
@@ -250,7 +281,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ],
                   ),
-                 
+                 const SizedBox(height: 16.0),
                    ],
               ),
             ),

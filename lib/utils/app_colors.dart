@@ -9,6 +9,7 @@ class AppColors{
   static const grey=Color(0xFF91859A);
   static const arrowBack=const Color(0xFFaba4f5);
   static const black = Colors.black;
+  static const red = Colors.red;
   static const appBarBackgroundColor = Color(0xFFF7F6FC);
   static const shadowColor = const Color.fromARGB(230, 196, 116, 210);
 }
