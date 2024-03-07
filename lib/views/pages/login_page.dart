@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_test/utils/app_colors.dart';
+import 'package:project_test/utils/app_routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,9 +31,23 @@ class _LoginPageState extends State<LoginPage> {
     _passwordControler.dispose();
     super.dispose();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          appBar: AppBar(
+          backgroundColor: AppColors.appBarBackgroundColor,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: AppColors.arrowBack,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          elevation: 0,
+          shadowColor: AppColors.shadowColor,
+        ),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
@@ -45,9 +60,6 @@ class _LoginPageState extends State<LoginPage> {
                       Image.asset(
                         'assets/images/logo.png',
                         width: MediaQuery.sizeOf(context).width*0.4,
-                      ),
-                      const SizedBox(
-                        height: 24,
                       ),
                       Text(
                         "Welcome Back",
@@ -95,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                             padding:  EdgeInsets.only(left: 20, right: 5),
                             child:  Icon(Icons.email_outlined),
                           ),
-                          prefixIconColor: AppColors.grey,
+                          prefixIconColor: AppColors.grey4,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide(color:AppColors.grey4, width: 1.0),
@@ -132,9 +144,9 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: "Password",
                           prefixIcon: const Padding(
                             padding:  EdgeInsets.only(left: 20, right:5 ),
-                            child:  Icon(Icons.password),
+                            child:  Icon(Icons.lock),
                           ),
-                          prefixIconColor: AppColors.grey,
+                          prefixIconColor: AppColors.grey4,
                           suffixIcon: InkWell(
                             onTap: () {
                               setState(() {
@@ -181,7 +193,8 @@ class _LoginPageState extends State<LoginPage> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primary,
                                   foregroundColor: AppColors.white,
@@ -214,7 +227,9 @@ class _LoginPageState extends State<LoginPage> {
                                     color: AppColors.grey,
                                   )),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, AppRoutes.signup);
+                            },
                             child: Text(
                               "Sign Up",
                               style: Theme.of(context)
