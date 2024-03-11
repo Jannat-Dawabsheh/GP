@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:project_test/utils/app_colors.dart';
 import 'package:project_test/utils/app_routes.dart';
+import 'package:http/http.dart' as http;
+import 'package:project_test/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   late FocusNode _emailFocusNode, _passwordFocusNode;
   String? _email, _password;
   bool visibility = false;
+  late SharedPreferences prefs;
   @override
   void initState() {
     _formKey = GlobalKey<FormState>();
@@ -23,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     _emailFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
     super.initState();
+    initSharedPref();
   }
 
   @override
@@ -32,11 +39,34 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void login(VoidCallback loginFunc) {
-    if (_formKey.currentState!.validate()) {
-       loginFunc();
-    }
+  void initSharedPref()async{
+    prefs=await SharedPreferences.getInstance();
   }
+
+void login() async {
+    if (_formKey.currentState!.validate()) {
+
+      debugPrint(" $_email   $_password");
+       var regBody = {
+        "email":_email,
+        "password":_password
+      };
+      var response = await http.post(Uri.parse(loginurl),
+      headers: {"Content-Type":"application/json"},
+      body: jsonEncode(regBody)
+      );
+      var jsonResponse = jsonDecode(response.body);
+      print(jsonResponse['status']);
+      if(jsonResponse['status']){
+        var myToken=jsonResponse['token'];
+        prefs.setString('token', myToken);
+        Navigator.pushNamed(context, AppRoutes.home,arguments: myToken);
+      }else{
+        print("SomeThing Went Wrong");
+      }
+    }
+
+}
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                         textInputAction: TextInputAction.done,
                         onEditingComplete: () {
                           _passwordFocusNode.unfocus();
-                          login(() { });
+                          login();
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -216,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 50,
                         child: ElevatedButton(
                                 onPressed: (){
-                                  login(() { });
+                                  login();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primary,

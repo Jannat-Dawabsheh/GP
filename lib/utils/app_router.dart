@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_test/utils/app_routes.dart';
+import 'package:project_test/views/pages/home_page.dart';
 import 'package:project_test/views/pages/login_page.dart';
 import 'package:project_test/views/pages/signup_page.dart';
 
@@ -17,6 +18,12 @@ class AppRouter {
         case AppRoutes.login:
         return MaterialPageRoute(
           builder: (_) => const LoginPage(),
+          settings: settings,
+        );
+
+        case AppRoutes.home:
+        return MaterialPageRoute(
+          builder: (_) => const HomePage(),
           settings: settings,
         );
 

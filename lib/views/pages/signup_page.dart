@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:project_test/utils/app_colors.dart';
 import 'package:project_test/utils/app_routes.dart';
+import 'package:http/http.dart' as http;
+import 'package:project_test/config.dart';
+import 'package:project_test/views/pages/login_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -37,11 +42,30 @@ class _SignupPageState extends State<SignupPage> {
     super.dispose();
   }
 
-  void signup(VoidCallback signupFunc) {
+  void signup() async {
     if (_formKey.currentState!.validate()) {
-       signupFunc();
+
+      debugPrint("$_name  $_email   $_password");
+       var regBody = {
+        "username":_name,
+        "email":_email,
+        "password":_password
+      };
+      var response = await http.post(Uri.parse(registeration),
+      headers: {"Content-Type":"application/json"},
+      body: jsonEncode(regBody)
+      );
+      var jsonResponse = jsonDecode(response.body);
+      print(jsonResponse['status']);
+      if(jsonResponse['status']){
+        Navigator.pushNamed(context, AppRoutes.login);
+      }else{
+        print("SomeThing Went Wrong");
+      }
     }
-  }
+
+}
+  
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +207,7 @@ class _SignupPageState extends State<SignupPage> {
                         textInputAction: TextInputAction.done,
                         onEditingComplete: () {
                           _passwordFocusNode.unfocus();
-                          signup(() { });
+                          signup();
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -238,7 +262,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 50.0,
                     child: ElevatedButton(
                       onPressed: () {
-                        signup(() { });
+                        signup();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
