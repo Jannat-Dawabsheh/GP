@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:project_test/utils/app_colors.dart';
@@ -56,13 +57,25 @@ void login() async {
       body: jsonEncode(regBody)
       );
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse['status']);
-      if(jsonResponse['status']){
+      final int statusCode = response.statusCode;
+      print(statusCode);
+      if(statusCode==200){
         var myToken=jsonResponse['token'];
         prefs.setString('token', myToken);
         Navigator.pushNamed(context, AppRoutes.home,arguments: myToken);
       }else{
-        print("SomeThing Went Wrong");
+        ScaffoldMessenger.of(context).showSnackBar(
+           const SnackBar(
+            content: Text(
+              'Wrong credentials! Invalid email or password',
+              style: TextStyle(
+                fontSize: 16
+              ),
+              textAlign: TextAlign.center,
+              ),
+            backgroundColor: AppColors.grey,
+          ),
+        );
       }
     }
 

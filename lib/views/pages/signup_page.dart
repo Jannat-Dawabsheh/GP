@@ -56,11 +56,23 @@ class _SignupPageState extends State<SignupPage> {
       body: jsonEncode(regBody)
       );
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse['status']);
-      if(jsonResponse['status']){
+      final int statusCode = response.statusCode;
+      print(statusCode);
+      if(statusCode==200){
         Navigator.pushNamed(context, AppRoutes.login);
       }else{
-        print("SomeThing Went Wrong");
+         ScaffoldMessenger.of(context).showSnackBar(
+           const SnackBar(
+            content: Text(
+              'This email is already associated with an account!',
+              style: TextStyle(
+                fontSize: 16
+              ),
+              textAlign: TextAlign.center,
+              ),
+            backgroundColor: AppColors.grey,
+          ),
+        );
       }
     }
 
